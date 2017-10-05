@@ -8,16 +8,14 @@
 class Currency
 {
 private:
-	//
-public:
 	std::string c_name;
 	std::string c_fractionName;
-	std::string c_wholepart;
-	std::string c_fractionPart;
+	int c_wholepart;
+	double c_fractionPart;
+
+public:
 	Currency();
 	//more constructors to set name and fractional name + initial value
 
 
 };
-
-
