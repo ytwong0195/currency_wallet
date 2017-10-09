@@ -1,38 +1,35 @@
-#ifndef WALLET_H
-#include"currency.h"
-//#include "c_Dollar.h"
-//#include "c_Euro.h"
-//#include "c_Rupee.h"
-//#include "c_Yen.h"
-//#include "c_Yuan.h"
+#pragma once
 
-const int MAX = 5;
+#include "currency.h"
+
 
 
 class Wallet : public Currency
 {
 	private:
+		
 		int numberOfCurrencies;
-		Currency c_array[MAX];
+		Currency c_array[5];
 		
 	public:
 		Wallet();
 		~Wallet();
 		int getNumCurrencies() const;
 		bool isEmpty();
-		void addCurrency(Currency*);
-		void addValue(Currency*);
-		void subtract(Currency*);
-		void emptyWallet();
+		void addCurrency(Currency*, Wallet);
+		void addValue(Currency*, Wallet);
+		void subtract(Currency*, Wallet);
+		void emptyWallet(Wallet);
 
-		int currencyCheck(Currency*);
+		int currencyCheck(Currency*, Wallet);
+
+		void displayWallet(int, Wallet);
+		double operator[] (int);
+	
 
 
 
 };
 
 
-
-
-#endif // !WALLET_H
 

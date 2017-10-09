@@ -17,8 +17,7 @@ By Ying Tung Wong, Christian Magpantay
 #include "c_Yuan.h"
 #include "c_Rupee.h"
 #include "wallet.h"
-#include "wallet.cpp"
-#include "currency.cpp"
+
 
 
 /*
@@ -57,7 +56,7 @@ back to main
 if exit,
 exit program
 */
-
+int displayMainMenu();
 using namespace std;
 
 int main()
@@ -73,12 +72,14 @@ int main()
 	Currency * yuan = new c_Yuan();
 
 	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
-	enum MAIN_MENU_CHOICE { ADD = 1, SUBTRACT, DISPLAY, EMPTY, EXIT};
+	enum MAIN_MENU_CHOICE { ADD = 1, SUBTRACT, DISPLAY, EMPTY, EXIT };
 
-	displayMainMenu();
+	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
+
+	choice = displayMainMenu();
 	while (choice != EXIT)
 	{
-		choice = displayMainMenu();
+
 		switch (choice)
 		{
 		case ADD:
@@ -93,24 +94,28 @@ int main()
 
 			if (currnc == USD)
 			{
-
-				int exist = wlet.currencyCheck(dollar);
+				//cout << "if currnc==usd" << endl;
+				int exist = wlet.currencyCheck(dollar, wlet);
 				if (exist == -1)
 				{
-					wlet.addCurrency(dollar);
-					wlet.addValue(dollar);
+					//cout << "if exist = -1" << endl;
+					wlet.addCurrency(dollar, wlet);
+					wlet.addValue(dollar, wlet);
+					//cout << "Currency added!" << endl;
+					//cout << wlet[0] << endl;
 				}
 				else if (exist != -1)
 				{
-					wlet.addValue(dollar);
-					cout << "Currency added!" << endl;
-					cout << "Returning to main menu!" << endl << endl;
-					displayMainMenu();
+					//cout << "if exist != -1" << endl;
+					wlet.addValue(dollar, wlet);
+					//cout << "Value added!" << endl;
+					//cout << "Returning to main menu!" << endl << endl;
 
 				}
 			}
+			break;
 			// function repeats for other currencies
-		}
+		}//end ADD
 
 		case SUBTRACT:
 		{
@@ -124,60 +129,68 @@ int main()
 
 			if (currnc == USD)
 			{
-				int exist = wlet.currencyCheck(dollar);
+				int exist = wlet.currencyCheck(dollar, wlet);
 				if (exist == -1)
 				{
-					//wlet.addCurrency(dollar);
-					//wlet.addValue(dollar);
+					cout << "The currency has information available, you may add this currency at the main menu. " << endl;
+					cout << "The program will return to main menu now." ;
 				}
-				else if (exist != -1)
+				else 
 				{
 
-					//wlet.addValue(dollar);
-					cout << "Currency subtracted!" << endl;
+					wlet.subtract(dollar, wlet);
 					cout << "Returning to main menu!" << endl << endl;
-					displayMainMenu();
-
 				}
 			}
 			break;
 			//function repeats for other currencies
-		}
+		}//end SUBTRACT
 		case DISPLAY:
 		{
 			//display wallet array object
-			cout << "Wallet contents displayed!" << endl;
+			for (int i = 0; i < wlet.getNumCurrencies(); i++)
+			{
+				wlet.displayWallet(i,wlet);
+			}
+			cout << "All Wallet contents displayed!" << endl;
 			cout << "Returning to main menu!" << endl << endl;
-			displayMainMenu();
+			
 			break;
-		}
+		}//end DISPLAY
 		case EMPTY:
 		{
+			wlet.emptyWallet(wlet);
 			cout << "Wallet is now empty!" << endl;
 			cout << "Returning to main menu!" << endl << endl;
-			displayMainMenu();
+			
 			break;
-		}
-		case EXIT:
-			cout << "Thank you! Goodbye!" << endl;
-			break;
-		}
+		}//end EMPTY
+		}//end SWITCH
+		choice = displayMainMenu();
+	}//end WHILE
+		
+	if (choice == EXIT)
+	{
+		cout << "The program will now exit. Thank you for using!" << endl;
 	}
+		
+	system("pause");
+
 	return 0;
 }
 
 /*
 Display Main Menu
-	Pseudocode:
-	Show user a series of options
-	do while
-		choice is in between 1-5
+Pseudocode:
+Show user a series of options
+do while
+choice is in between 1-5
 */
 int displayMainMenu()
 {
 	int choice = 0;		// Menu choice from user's input
 
-	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
+	cout << endl << endl;
 	cout << "Would you like to.." << endl;
 	cout << "1. Add to a specific currency? " << endl;
 	cout << "2. Subtract from a specific currency? " << endl;
@@ -189,7 +202,7 @@ int displayMainMenu()
 
 	do
 	{
-		if (cin.fail() || (choice < 1 || choice > 4))
+		if (cin.fail() || (choice < 1 || choice > 5))
 		{
 			cout << "Invalid entry. Please reenter: ";
 			cin.clear();

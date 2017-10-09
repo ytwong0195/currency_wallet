@@ -1,6 +1,9 @@
 #include "Wallet.h"
 //#include "Currency.h"
 
+ const int MAX_CURR = 5;
+
+
 Wallet::Wallet() 
 {
 	numberOfCurrencies = 0;
@@ -26,44 +29,44 @@ bool Wallet::isEmpty()
 	return false;
 }
 
-void Wallet::addCurrency(Currency*input)
+void Wallet::addCurrency(Currency*input, Wallet myWallet)
 {
-	if (numberOfCurrencies>=5)
+	if (myWallet.getNumCurrencies()>=MAX_CURR)
 	{
 		std::cout << "You have reached maximum number of currencies allowed. " << std::endl;
 	}
 	else
 	{
-		if (currencyCheck(input) >= 0 ) 
+		
+		 if (currencyCheck(input, myWallet) == -1)
 		{
-			c_array[currencyCheck(input)] = *input;
-		}
-		else if (currencyCheck(input) == -1)
-		{
-			c_array[numberOfCurrencies] = *input;
-			numberOfCurrencies += 1;
+			std::cout << "add currency -> currency check = -1 " << std::endl;
+			std::cout << "number of currrency "<< myWallet.getNumCurrencies() << std:: endl;
+			myWallet.c_array[myWallet.getNumCurrencies()] = *input;
+			myWallet.numberOfCurrencies += 1;
 		}
 	}
 }
 
-void Wallet::addValue(Currency *input)
+void Wallet::addValue(Currency *input, Wallet myWallet)
 {
-	int c_type = currencyCheck(input);
+	int c_type = currencyCheck(input, myWallet);
 	int confirm;
-	Currency temp;
+	Currency temp(*input);
 	do
 	{
-		std::cout << "How many " << c_array[c_type].getName() << " would you like to add?" << std::endl;
-		std::cout << "If you'd like to return to the previous menu, enter 0 amount and confirm :";
+		std::cout << "How many " << myWallet.c_array[c_type].getName() << " would you like to add?" << std::endl;
+		std::cout << "If you'd like to return to the previous menu, enter 0 amount and confirm :" <<std::endl;
 		std::cin >> temp;
 		std::cout << "Is " << temp << "  the correct amount?" << std::endl;
 		std::cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
 		std::cin >> confirm;
 		if (confirm == 1)
 		{
-			c_array[c_type] = c_array[c_type] + temp;
+			std::cout << "the amount in myWallet is " << myWallet[c_type] << std::endl;
+			myWallet.c_array[c_type] = myWallet.c_array[c_type] + temp;
 			std::cout << temp << " has been added." << std::endl;
-			std::cout << "The total is now " << c_array[c_type];
+			std::cout << "The total is now " << myWallet[c_type];
 		}
 
 	} while (confirm == 2);
@@ -71,24 +74,24 @@ void Wallet::addValue(Currency *input)
 
 }
 
-void Wallet::subtract(Currency*input) //TODO: not yet validate negative result
+void Wallet::subtract(Currency*input, Wallet myWallet) //TODO: not yet validate negative result
 {
-	int c_type = currencyCheck(input);
+	int c_type = currencyCheck(input, myWallet);
 	int confirm;
-	Currency temp;
+	Currency temp(*input);
 	do
 	{
-		std::cout << "How many " << c_array[c_type].getName() << " would you like to use?" << std::endl;
-		std::cout << "If you'd like to return to the previous menu, enter 0 amount and confirm :";
+		std::cout << "How many " << myWallet.c_array[c_type].getName() << " would you like to use?" << std::endl;
+		std::cout << "If you'd like to return to the previous menu, enter 0 amount and confirm "<<std::endl;
 		std::cin >> temp;
 		std::cout << "Is " << temp << "  the correct amount?" << std::endl;
 		std::cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
 		std::cin >> confirm;
 		if (confirm == 1)
 		{
-			c_array[c_type] = c_array[c_type] - temp;
+			myWallet.c_array[c_type] = myWallet.c_array[c_type] - temp;
 			std::cout << temp << " has been deducted." << std::endl;
-			std::cout << "The total is now " << c_array[c_type];
+			std::cout << "The total is now " << myWallet.c_array[c_type] << std::endl;
 		}
 
 	} while (confirm == 2);
@@ -97,20 +100,21 @@ void Wallet::subtract(Currency*input) //TODO: not yet validate negative result
 }
 
 
-void Wallet::emptyWallet()
+void Wallet::emptyWallet(Wallet myWallet)
 {
 	int confirm = 2;
 
 	std::cout << "Are you sure if you want to empty your wallet? All data will be deleted." << std::endl;
 	std::cout << "YES = 1, NO and RETURN to previous = 2" << std::endl;
 	std::cout << "Please enter your option: ";
+	std::cin >> confirm;
 
 	if (confirm == 1) 
 	{
 		Currency nullCurrency;
-		for (int i = 0; i < MAX; i++)
+		for (int i = 0; i < MAX_CURR; i++)
 		{
-			c_array[i] = nullCurrency;
+			myWallet.c_array[i] = nullCurrency;
 		
 		}
 		numberOfCurrencies = 0;
@@ -119,15 +123,40 @@ void Wallet::emptyWallet()
 
 }
 
-int Wallet::currencyCheck(Currency* input)
+int Wallet::currencyCheck(Currency* input, Wallet myWallet)
 {
 	int currencyPosition = -1;
 	for (int pos = 0; pos < numberOfCurrencies; pos++)
 	{
-		if (input->getName() == c_array[pos].getName()) 
+		if (input->getName() == myWallet.c_array[pos].getName()) 
 		{
+			std::cout << "the currency is at position " << pos << std:: endl;
 			currencyPosition = pos;
+			return currencyPosition;
 		}
 	}
+
+	std::cout << "currency does not have information" << std::endl;
 	return currencyPosition;
+	
+}
+
+void Wallet::displayWallet(int index, Wallet myWallet)
+{
+	std::cout << myWallet.c_array[index].getTotal() << " " << myWallet.c_array[index].getName() << std::endl;
+}
+
+double Wallet::operator[](int index)
+{
+	double error = -1;
+	if (index >= 5)
+	{
+		std::cout << "error - index out of bound" << std::endl;
+			return error;//or return first element? 
+	}
+	else
+	{
+		return c_array[index].getTotal();
+		
+	}
 }

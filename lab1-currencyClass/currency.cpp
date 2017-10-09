@@ -29,11 +29,19 @@ std::string Currency::getFracName() const
 	return c_fractionName;
 }
 
+double Currency::getTotal() const
+{
+	double total;
+	total = c_wholepart + c_fractionPart;
+	return total;
+}
+
 Currency Currency::operator+(const Currency &right)
 {
 	Currency temp;
-	temp.c_wholepart = c_wholepart +  right.c_wholepart;
-	temp.c_fractionPart = c_fractionPart + right.c_fractionPart;
+	temp.c_wholepart = this->c_wholepart +  right.c_wholepart;
+	temp.c_fractionPart = this->c_fractionPart + right.c_fractionPart;
+	std::cout << "overload operator +" << std::endl;
 	while (temp.c_fractionPart >= 1) 
 	{
 		temp.c_wholepart += 1;
@@ -46,13 +54,13 @@ Currency Currency::operator+(const Currency &right)
 Currency Currency::operator-(const Currency &right)
 {
 	Currency temp;
-	temp.c_fractionPart = c_fractionPart - right.c_fractionPart;
+	temp.c_fractionPart = this-> c_fractionPart - right.c_fractionPart;
 	while (temp.c_fractionPart < 0)
 	{
 		temp.c_wholepart -= 1;
 		temp.c_fractionPart += 1;
 	}
-	temp.c_wholepart = c_wholepart - right.c_wholepart;
+	temp.c_wholepart = this->c_wholepart - right.c_wholepart;
 	
 	return temp;
 }
@@ -61,7 +69,7 @@ Currency Currency::operator-(const Currency &right)
 
 std::ostream & operator<<(std::ostream &ostrm, const Currency &obj)
 {
-	ostrm << obj.c_wholepart << " " << obj.c_name << " " << obj.c_fractionPart*100 << " " << obj.c_fractionName;
+	ostrm << obj.c_wholepart << " " << obj.getName() << " " << obj.c_fractionPart*100 << " " << obj.getFracName() << std::endl;
 	//assuming fraction part is stored as 0.xx value
 	return ostrm;
 

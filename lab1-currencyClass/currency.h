@@ -14,7 +14,6 @@ private:
 	std::string c_fractionName;
 	double c_wholepart;
 	double c_fractionPart;
-	Currency * nextLoc;
 
 public:
 	Currency();
@@ -24,6 +23,7 @@ public:
 
 	std::string getName() const;
 	std::string getFracName() const;
+	double getTotal()const;
 
 
 	Currency operator + (const Currency &);
@@ -33,6 +33,7 @@ public:
 	friend std::ostream &operator<<(std::ostream &, const Currency &);
 
 	friend std::istream &operator>>(std::istream  &, Currency &);
+
 
 
 	
