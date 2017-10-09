@@ -107,45 +107,33 @@ int main()
 			if (currnc == USD)
 			{
 				int exist = wlet.currencyCheck(dollar);
-				if (exist != -1) 
+				if (exist == -1)
+				{
+					wlet.addCurrency(dollar);
+					wlet.addValue(dollar);
+				}
+
+				else if (exist != -1) 
 				{
 
-					cout << " How many 'dollars' would you like to add?" << endl;
-					cin >> amount;
-					while (tryAgain)
-					{
-						try
-						{
-							//wallet array object
-							//wlet.set[0](amount);
-							tryAgain = false;
-						}
-						catch (Currency::invalidAdd)
-						{
-							cout << "The value of the amount must be a positive value." << endl;
-							cout << " How many 'dollars' would you like to add?" << endl;
-							cin >> amount;
-						}
-					}
-
-					cout << "Is " << "'" << amount << "'" << "  the correct amount?" << endl;
-					cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
-					cin >> confirm;
-
-					if (confirm == 1)
-					{
-						//wlet.set[](amount);
-						cout << "'" << amount << "'" << " has been added.";
-					}
-					else if (confirm == 2)
-					{
-						cout << "How many 'dollars' would you like to add?" << endl;
-						cin >> amount;
-						//Add Input validation
-					}
+					wlet.addValue(dollar);
+					//while (tryagain)
+					//{
+					//	try
+					//	{
+					//		//wallet array object
+					//		//wlet.set[0](amount);
+					//		tryagain = false;
+					//	}
+					//	catch (currency::invalidadd)
+					//	{
+					//		cout << "the value of the amount must be a positive value." << endl;
+					//		cout << " how many 'dollars' would you like to add?" << endl;
+					//		cin >> amount;
+					//	}
+					//}
+		
 				}
-				
-
 
 
 			}
@@ -161,42 +149,14 @@ int main()
 			cout << "5. Yuan" << endl;
 			cin >> currnc;
 
-			if (currnc == 1)
+			if (currnc == USD)
 			{
-				cout << "How many 'dollars' would you like to subtract?" << endl;
-				cin >> amount;
-				while (tryAgain)
-				{
-					try
-					{
-						//wallet array object
-						//wlet.set[0](amount);
-						tryAgain = false;
-					}
-					catch (Currency::invalidAdd)
-					{
-						cout << "The value of the amount must be a positive value." << endl;
-						cout << " How many 'dollars' would you like to add?" << endl;
-						cin >> amount;
-					}
-				}
+				int exist = wlet.currencyCheck(dollar);
+				if (exist != -1) {
 
-
-				cout << "Is " << "'" << amount << "'" << "  the correct amount?" << endl;
-				cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
-				cin >> confirm;
-
-				if (confirm == 1)
-				{
-					//wlet.set[](amount);
-				}
-				else if (confirm == 2)
-				{
-					cout << "How many 'dollars' would you like to add?" << endl;
-					cin >> amount;
-					//Add Input validation
 				}
 			}
+
 
 			// I'll repeat the function above for the other currencies as well
 		}

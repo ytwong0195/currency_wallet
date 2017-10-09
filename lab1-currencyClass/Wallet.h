@@ -9,7 +9,7 @@
 const int MAX = 5;
 
 
-class Wallet
+class Wallet : public Currency
 {
 	private:
 		int numberOfCurrencies;
@@ -21,7 +21,8 @@ class Wallet
 		int getNumCurrencies() const;
 		bool isEmpty();
 		void addCurrency(Currency*);
-		void removeCurrency(Currency*);
+		void addValue(Currency*);
+		void subtract(Currency*);
 		void emptyWallet();
 
 		int currencyCheck(Currency*);

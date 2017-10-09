@@ -25,8 +25,6 @@ public:
 	std::string getName() const;
 	std::string getFracName() const;
 
-	void setNext(Currency*);
-	Currency* getNext() const;
 
 	Currency operator + (const Currency &);
 
