@@ -1,10 +1,15 @@
-#pragma once
+#ifndef DOLLAR_H
+
 #include "currency.h"
 
 class c_Dollar : public Currency
 {
-private:
+protected:
 	//
 public:
-	//preset name to dollar and cent
+	c_Dollar() :Currency("Dollar", "cent") {};
+	~c_Dollar() {};
 };
+
+#endif // !DOLLAR_H
+

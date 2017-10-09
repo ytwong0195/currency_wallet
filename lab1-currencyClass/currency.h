@@ -14,19 +14,30 @@ private:
 	std::string c_fractionName;
 	double c_wholepart;
 	double c_fractionPart;
+	Currency * nextLoc;
 
 public:
 	Currency();
-	Currency(double);
-	void setValue(double, double);
-	double getAmount() const;
-	//virtual void addMoney(double);
-	//virtual void subtractMoney(double);
-	//void emptyCurrency();
+	Currency(std::string, std::string);
 
-	double operator + (double);
+	~Currency();
 
-	double operator - (double);
+	std::string getName() const;
+	std::string getFracName() const;
+
+	void setNext(Currency*);
+	Currency* getNext() const;
+
+	Currency operator + (const Currency &);
+
+	Currency operator - (const Currency &);
+
+	friend std::ostream &operator<<(std::ostream &, const Currency &);
+
+	friend std::istream &operator>>(std::istream  &, Currency &);
+
+
+	
 
 
 };

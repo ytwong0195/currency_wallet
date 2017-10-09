@@ -1,4 +1,4 @@
-#pragma once
+#ifndef EURO_H
 #include "currency.h"
 
 class c_Euro : public Currency
@@ -6,5 +6,9 @@ class c_Euro : public Currency
 private:
 	//
 public:
-	//preset name to euro and cent
+	c_Euro() :Currency("Euro", "cent") {};
+	~c_Euro() {};
 };
+
+#endif // !EURO_H
+

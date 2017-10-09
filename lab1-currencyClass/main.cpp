@@ -1,15 +1,10 @@
 /*
 Lab 1
-
 This program simulates a wallet during a foreign trip
 by adding or subracting different currencies by the user or
 displaying or emptying the contents of the wallet.
-
 By Ying Tung Wong, Christian Magpantay
-
 Assumptions:
-
-
 */
 
 #include <iostream>
@@ -21,61 +16,67 @@ Assumptions:
 #include "c_Euro.h"
 #include "c_Yen.h"
 #include "c_Yuan.h"
+#include "c_Rupee.h"
 #include "wallet.h"
-#include "wallet.cpp"
+//#include "wallet.cpp"
 
-using namespace std;
 
 /*
 Main
 Psuedocode:
-	Program will show the user a series of options for the wallet program
-
-	Ask user main prompts; add, remove, display, empty the entire contents of the wallet, or exit program
-		while loop ( while choice is not exit program )
-			if add,
-				ask which currency
-				ask how much will be added
-				input validation for program
-					if positive,
-						output, input validation to user
-						output, amount has added
-						back to main
-					if negative,
-						output, unable to use negative
-						ask for input
-
-			if remove,
-				ask which currency
-				input validation for program
-					try/catch
-					try if input is within bounds
-					catch if input is greater than amount in wallet
-					output if amount subtracted is greater than amount in wallet
-				input validation to user
-				output amount has removed
-				back to main
-
-			if show,
-				display wallet array
-
-			if empty,
-				print current state of wallet
-				output to user of emptying contents
-				back to main
-
-			if exit,
-				exit program
-
+Program will show the user a series of options for the wallet program
+Ask user main prompts; add, remove, display, empty the entire contents of the wallet, or exit program
+while loop ( while choice is not exit program )
+if add,
+ask which currency
+ask how much will be added
+input validation for program
+if positive,
+output, input validation to user
+output, amount has added
+back to main
+if negative,
+output, unable to use negative
+ask for input
+if remove,
+ask which currency
+input validation for program
+try/catch
+try if input is within bounds
+catch if input is greater than amount in wallet
+output if amount subtracted is greater than amount in wallet
+input validation to user
+output amount has removed
+back to main
+if show,
+display wallet array
+if empty,
+print current state of wallet
+output to user of emptying contents
+back to main
+if exit,
+exit program
 */
+
+using namespace std;
 
 int main()
 {
 	int currnc, choice, confirm;
 	int whAm, frAm;
 	double totalAm;
+
 	bool tryAgain = true;
 	Wallet wlet;
+	
+
+	Currency * dollar = new c_Dollar();
+	Currency * euro = new c_Euro();
+	Currency * rupee = new c_Rupee();
+	Currency * yen = new c_Yen();
+	Currency * yuan = new c_Yuan();
+
+	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
 
 	//Prompt the user which option he would like to choose
 	//from their wallet.
@@ -94,6 +95,7 @@ int main()
 	{
 		if (choice == 1)
 		{
+			
 			cout << "Please select the type of currency you would like to add." << endl;
 			cout << "1. Dollars" << endl;
 			cout << "2. Euros" << endl;
@@ -102,41 +104,47 @@ int main()
 			cout << "5. Yuan" << endl;
 			cin >> currnc;
 
-			if (currnc == 1)
+			if (currnc == USD)
 			{
-				cout << " How many 'dollars' would you like to add?" << endl;
-				cin >> amount;
-				while (tryAgain)
+				int exist = wlet.currencyCheck(dollar);
+				if (exist != -1) 
 				{
-					try
-					{
-						//wallet array object
-						//wlet.set[0](amount);
-						tryAgain = false;
-					}
-					catch (Currency::invalidAdd)
-					{
-						cout << "The value of the amount must be a positive value." << endl;
-						cout << " How many 'dollars' would you like to add?" << endl;
-						cin >> amount;
-					}
-				}
 
-				cout << "Is " << "'" << amount << "'" << "  the correct amount?" << endl;
-				cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
-				cin >> confirm;
-
-				if (confirm == 1)
-				{
-					//wlet.set[](amount);
-					cout << "'" << amount << "'" << " has been added."
-				}
-				else if (confirm == 2)
-				{
-					cout << "How many 'dollars' would you like to add?" << endl;
+					cout << " How many 'dollars' would you like to add?" << endl;
 					cin >> amount;
-					//Add Input validation
+					while (tryAgain)
+					{
+						try
+						{
+							//wallet array object
+							//wlet.set[0](amount);
+							tryAgain = false;
+						}
+						catch (Currency::invalidAdd)
+						{
+							cout << "The value of the amount must be a positive value." << endl;
+							cout << " How many 'dollars' would you like to add?" << endl;
+							cin >> amount;
+						}
+					}
+
+					cout << "Is " << "'" << amount << "'" << "  the correct amount?" << endl;
+					cout << "Enter 1 for 'Yes' or 2 for 'No'. ";
+					cin >> confirm;
+
+					if (confirm == 1)
+					{
+						//wlet.set[](amount);
+						cout << "'" << amount << "'" << " has been added.";
+					}
+					else if (confirm == 2)
+					{
+						cout << "How many 'dollars' would you like to add?" << endl;
+						cin >> amount;
+						//Add Input validation
+					}
 				}
+				
 
 
 
@@ -202,8 +210,8 @@ int main()
 		}
 		else
 			cout << "Invalid input.";
-			cout << "Enter the number of your choice: ";
-			cin >> choice;
+		cout << "Enter the number of your choice: ";
+		cin >> choice;
 
 	}
 
