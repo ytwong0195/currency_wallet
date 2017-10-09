@@ -4,7 +4,6 @@ This program simulates a wallet during a foreign trip
 by adding or subracting different currencies by the user or
 displaying or emptying the contents of the wallet.
 By Ying Tung Wong, Christian Magpantay
-Assumptions:
 */
 
 #include <iostream>
@@ -18,7 +17,8 @@ Assumptions:
 #include "c_Yuan.h"
 #include "c_Rupee.h"
 #include "wallet.h"
-//#include "wallet.cpp"
+#include "wallet.cpp"
+#include "currency.cpp"
 
 
 /*
@@ -62,13 +62,9 @@ using namespace std;
 
 int main()
 {
-	int currnc, choice, confirm;
-	int whAm, frAm;
-	double totalAm;
-
-	bool tryAgain = true;
+	int currnc = 0;
+	int choice = 0;
 	Wallet wlet;
-	
 
 	Currency * dollar = new c_Dollar();
 	Currency * euro = new c_Euro();
@@ -77,25 +73,16 @@ int main()
 	Currency * yuan = new c_Yuan();
 
 	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
+	enum MAIN_MENU_CHOICE { ADD = 1, SUBTRACT, DISPLAY, EMPTY, EXIT};
 
-	//Prompt the user which option he would like to choose
-	//from their wallet.
-
-	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
-	cout << "Would you like to.." << endl;
-	cout << "1. Add to a specific currency? " << endl;
-	cout << "2. Subtract from a specific currency? " << endl;
-	cout << "3. Show the contents of your wallet? " << endl;
-	cout << "4. Empty the contents of your wallet? " << endl;
-	cout << "5. Exit the program." << endl << endl;
-	cout << "Please enter the number of your choice." << endl;
-	cin >> choice;
-
-	while (choice != 5)
+	displayMainMenu();
+	while (choice != EXIT)
 	{
-		if (choice == 1)
+		choice = displayMainMenu();
+		switch (choice)
 		{
-			
+		case ADD:
+		{
 			cout << "Please select the type of currency you would like to add." << endl;
 			cout << "1. Dollars" << endl;
 			cout << "2. Euros" << endl;
@@ -106,40 +93,26 @@ int main()
 
 			if (currnc == USD)
 			{
+
 				int exist = wlet.currencyCheck(dollar);
 				if (exist == -1)
 				{
 					wlet.addCurrency(dollar);
 					wlet.addValue(dollar);
 				}
-
-				else if (exist != -1) 
+				else if (exist != -1)
 				{
-
 					wlet.addValue(dollar);
-					//while (tryagain)
-					//{
-					//	try
-					//	{
-					//		//wallet array object
-					//		//wlet.set[0](amount);
-					//		tryagain = false;
-					//	}
-					//	catch (currency::invalidadd)
-					//	{
-					//		cout << "the value of the amount must be a positive value." << endl;
-					//		cout << " how many 'dollars' would you like to add?" << endl;
-					//		cin >> amount;
-					//	}
-					//}
-		
+					cout << "Currency added!" << endl;
+					cout << "Returning to main menu!" << endl << endl;
+					displayMainMenu();
+
 				}
-
-
 			}
-			// I'll repeat the function above for the other currencies
+			// function repeats for other currencies
 		}
-		else if (choice == 2)
+
+		case SUBTRACT:
 		{
 			cout << "Please select the type of currency you would like to subtract." << endl;
 			cout << "1. Dollars" << endl;
@@ -152,27 +125,79 @@ int main()
 			if (currnc == USD)
 			{
 				int exist = wlet.currencyCheck(dollar);
-				if (exist != -1) {
+				if (exist == -1)
+				{
+					//wlet.addCurrency(dollar);
+					//wlet.addValue(dollar);
+				}
+				else if (exist != -1)
+				{
+
+					//wlet.addValue(dollar);
+					cout << "Currency subtracted!" << endl;
+					cout << "Returning to main menu!" << endl << endl;
+					displayMainMenu();
 
 				}
 			}
-
-
-			// I'll repeat the function above for the other currencies as well
+			break;
+			//function repeats for other currencies
 		}
-		else if (choice == 3)
+		case DISPLAY:
 		{
 			//display wallet array object
+			cout << "Wallet contents displayed!" << endl;
+			cout << "Returning to main menu!" << endl << endl;
+			displayMainMenu();
+			break;
 		}
-		else if (choice == 4)
+		case EMPTY:
 		{
-			//reset wallet array object
+			cout << "Wallet is now empty!" << endl;
+			cout << "Returning to main menu!" << endl << endl;
+			displayMainMenu();
+			break;
 		}
-		else
-			cout << "Invalid input.";
-		cout << "Enter the number of your choice: ";
-		cin >> choice;
-
+		case EXIT:
+			cout << "Thank you! Goodbye!" << endl;
+			break;
+		}
 	}
+	return 0;
+}
 
+/*
+Display Main Menu
+	Pseudocode:
+	Show user a series of options
+	do while
+		choice is in between 1-5
+*/
+int displayMainMenu()
+{
+	int choice = 0;		// Menu choice from user's input
+
+	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
+	cout << "Would you like to.." << endl;
+	cout << "1. Add to a specific currency? " << endl;
+	cout << "2. Subtract from a specific currency? " << endl;
+	cout << "3. Show the contents of your wallet? " << endl;
+	cout << "4. Empty the contents of your wallet? " << endl;
+	cout << "5. Exit the program." << endl << endl;
+	cout << "Please enter the number of your choice." << endl;
+	cin >> choice;
+
+	do
+	{
+		if (cin.fail() || (choice < 1 || choice > 4))
+		{
+			cout << "Invalid entry. Please reenter: ";
+			cin.clear();
+			cin.ignore();
+			cin >> choice;
+		}
+
+	} while (choice < 1 || choice > 5);
+
+	return choice;
 }
