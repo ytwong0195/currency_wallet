@@ -18,7 +18,7 @@
     <ClCompile Include="currency.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="c_Dollar.cpp">
+    <ClCompile Include="Wallet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -26,20 +26,26 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="currency.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="c_Dollar.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="c_Euro.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="c_Yuan.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="c_Rupee.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="c_Yen.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="c_Yuan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="currency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wallet.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

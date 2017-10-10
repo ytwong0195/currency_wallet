@@ -10,7 +10,7 @@ Currency::Currency(std::string name, std::string fractionName)
 	c_name = name;
 	c_fractionName = fractionName;
 	c_wholepart = 0;
-	c_fractionPart = 0;
+	c_fractionPart = 0;//fraction part will be saved as 0.xx mode.
 	
 }
 
@@ -84,11 +84,26 @@ std::ostream & operator<<(std::ostream &ostrm, const Currency &obj)
 std::istream & operator>>(std::istream &istrm, Currency &obj)
 {
 	std::cout << "Please enter 0 or other positive amount: ";
-	double total = 0.0;
-	istrm >> obj.c_wholepart;
-	total = obj.c_wholepart;
-	obj.c_wholepart = floor(total);
-	obj.c_fractionPart = total - obj.c_wholepart;
+	std::string userInput = "";
+	double total ;
+	istrm >> userInput;
+	try
+	{
+		total = std::stod(userInput);
+		if (total < 0) {
+			total = 0;
+			std::cout << "Negative amount is not accepted." << std::endl;
+		}
+		obj.c_wholepart = floor(total);
+		obj.c_fractionPart = total - obj.c_wholepart;
+	}
+	catch (const std::invalid_argument & error)
+	{
+		std::cerr << "Invalid input: " << error.what() << '\n';
+		std::cout << "Data entered cannot be converted to numbers."<< std::endl;	
+
+	}
+
 	return istrm;
 
 }

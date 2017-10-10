@@ -1,4 +1,5 @@
 #ifndef RUPEE_H
+#define RUPEE_H
 
 #include "currency.h"
 class c_Rupee : public Currency
@@ -6,8 +7,8 @@ class c_Rupee : public Currency
 private:
 	//
 public:
-	c_Rupee() :Currency("Rupee", "paise") {};
-	~c_Rupee() {};
+	 c_Rupee() :Currency("Rupee", "paise") {};
+	 ~c_Rupee() {};
 
 };
 

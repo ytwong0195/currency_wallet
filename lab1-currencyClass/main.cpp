@@ -107,7 +107,7 @@ int main()
 				temp_curr = yuan;
 			}
 				int exist = wlet.currencyCheck(temp_curr, wlet);
-				if (exist == -1)
+				if (exist == -1)//add currency if not exist
 				{
 					wlet.addCurrency(temp_curr, wlet);
 					wlet.addValue(temp_curr, wlet);

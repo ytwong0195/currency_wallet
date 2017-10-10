@@ -76,6 +76,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -112,8 +116,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="currency.cpp" />
-    <ClCompile Include="c_Dollar.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Wallet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="currency.h" />
@@ -121,6 +125,8 @@
     <ClInclude Include="c_Euro.h" />
     <ClInclude Include="c_Yen.h" />
     <ClInclude Include="c_Yuan.h" />
+    <ClInclude Include="c_Rupee.h" />
+    <ClInclude Include="Wallet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
