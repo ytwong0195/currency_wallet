@@ -57,6 +57,8 @@ if exit,
 exit program
 */
 int displayMainMenu();
+void displayOptions();
+void saveFile(Wallet&);
 using namespace std;
 
 int main()
@@ -70,6 +72,7 @@ int main()
 	Currency * rupee = new c_Rupee();
 	Currency * yen = new c_Yen();
 	Currency * yuan = new c_Yuan();
+	Currency * temp_curr = nullptr;
 
 	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
 	enum MAIN_MENU_CHOICE { ADD = 1, SUBTRACT, DISPLAY, EMPTY, EXIT };
@@ -85,92 +88,110 @@ int main()
 		case ADD:
 		{
 			cout << "Please select the type of currency you would like to add." << endl;
-			cout << "1. Dollars" << endl;
-			cout << "2. Euros" << endl;
-			cout << "3. Yen" << endl;
-			cout << "4. Rupees" << endl;
-			cout << "5. Yuan" << endl;
+			displayOptions();
 			cin >> currnc;
-
-			if (currnc == USD)
-			{
-				//cout << "if currnc==usd" << endl;
-				int exist = wlet.currencyCheck(dollar, wlet);
+			
+			if (currnc == USD) {
+				temp_curr = dollar;
+			}
+			if (currnc == EURO) {
+				temp_curr = euro;
+			}
+			if (currnc == RUPEES) {
+				temp_curr = rupee;
+			}
+			if (currnc == YEN) {
+				temp_curr = yen;
+			}
+			if (currnc == YUAN) {
+				temp_curr = yuan;
+			}
+				int exist = wlet.currencyCheck(temp_curr, wlet);
 				if (exist == -1)
 				{
-					//cout << "if exist = -1" << endl;
-					wlet.addCurrency(dollar, wlet);
-					wlet.addValue(dollar, wlet);
-					//cout << "Currency added!" << endl;
-					//cout << wlet[0] << endl;
+					wlet.addCurrency(temp_curr, wlet);
+					wlet.addValue(temp_curr, wlet);
 				}
 				else if (exist != -1)
 				{
-					//cout << "if exist != -1" << endl;
-					wlet.addValue(dollar, wlet);
-					//cout << "Value added!" << endl;
-					//cout << "Returning to main menu!" << endl << endl;
-
+					wlet.addValue(temp_curr, wlet);
 				}
-			}
+			
 			break;
-			// function repeats for other currencies
 		}//end ADD
 
 		case SUBTRACT:
 		{
 			cout << "Please select the type of currency you would like to subtract." << endl;
-			cout << "1. Dollars" << endl;
-			cout << "2. Euros" << endl;
-			cout << "3. Yen" << endl;
-			cout << "4. Rupees" << endl;
-			cout << "5. Yuan" << endl;
+			displayOptions();
 			cin >> currnc;
-
-			if (currnc == USD)
-			{
-				int exist = wlet.currencyCheck(dollar, wlet);
-				if (exist == -1)
-				{
-					cout << "The currency has information available, you may add this currency at the main menu. " << endl;
-					cout << "The program will return to main menu now." ;
-				}
-				else 
-				{
-
-					wlet.subtract(dollar, wlet);
-					cout << "Returning to main menu!" << endl << endl;
-				}
+			if (currnc == USD) {
+				temp_curr = dollar;
 			}
+			if (currnc == EURO) {
+				temp_curr = euro;
+			}
+			if (currnc == RUPEES) {
+				temp_curr = rupee;
+			}
+			if (currnc == YEN) {
+				temp_curr = yen;
+			}
+			if (currnc == YUAN) {
+				temp_curr = yuan;
+			}
+			
+			int exist = wlet.currencyCheck(temp_curr, wlet);
+			if (exist == -1)
+			{
+				cout << "The currency has no information available, you may add this currency at the main menu. " << endl;
+			}
+			else 
+			{
+
+				wlet.subtract(temp_curr, wlet);
+				
+			}
+		
 			break;
-			//function repeats for other currencies
 		}//end SUBTRACT
 		case DISPLAY:
 		{
 			//display wallet array object
-			for (int i = 0; i < wlet.getNumCurrencies(); i++)
+			if (wlet.getNumCurrencies() == 0) 
 			{
-				wlet.displayWallet(i,wlet);
+				cout << "The wallet is empty :(" << endl;
 			}
-			cout << "All Wallet contents displayed!" << endl;
-			cout << "Returning to main menu!" << endl << endl;
+			else
+			{
+				cout << "WALLET INFO" << endl;
+				cout << "==============================" << endl;
+				for (int i = 0; i < wlet.getNumCurrencies(); i++)
+				{
+					wlet.displayWallet(i, wlet);
+				}
+				cout << "All Wallet contents displayed!" << endl;
+				saveFile(wlet);
+			}
 			
 			break;
 		}//end DISPLAY
 		case EMPTY:
 		{
 			wlet.emptyWallet(wlet);
-			cout << "Wallet is now empty!" << endl;
-			cout << "Returning to main menu!" << endl << endl;
+			cout << "\nWallet is now empty!" << endl;
 			
 			break;
 		}//end EMPTY
 		}//end SWITCH
+		cout << "Returning to main menu!" << endl << endl;
 		choice = displayMainMenu();
 	}//end WHILE
 		
 	if (choice == EXIT)
 	{
+		cout << "Before you exit...." << endl;
+		saveFile(wlet);
 		cout << "The program will now exit. Thank you for using!" << endl;
 	}
 		
@@ -191,12 +212,13 @@ int displayMainMenu()
 	int choice = 0;		// Menu choice from user's input
 
 	cout << endl << endl;
-	cout << "Would you like to.." << endl;
-	cout << "1. Add to a specific currency? " << endl;
-	cout << "2. Subtract from a specific currency? " << endl;
-	cout << "3. Show the contents of your wallet? " << endl;
-	cout << "4. Empty the contents of your wallet? " << endl;
-	cout << "5. Exit the program." << endl << endl;
+	cout << setw(10) << "" << "Main Menu" << endl;
+	cout << setw(10) << "" << "============================" << endl;
+	cout << setw(10) << "" << "1. Add to a specific currency? " << endl;
+	cout << setw(10) << "" << "2. Subtract from a specific currency? " << endl;
+	cout << setw(10) << "" << "3. Show the contents of your wallet? " << endl;
+	cout << setw(10) << "" << "4. Empty the contents of your wallet? " << endl;
+	cout << setw(10) << "" << "5. Exit the program." << endl << endl;
 	cout << "Please enter the number of your choice." << endl;
 	cin >> choice;
 
@@ -213,4 +235,53 @@ int displayMainMenu()
 	} while (choice < 1 || choice > 5);
 
 	return choice;
+}
+
+
+void displayOptions()
+{
+	cout << setw(10) << "" << "1. Dollars" << endl;
+	cout << setw(10) << "" << "2. Euros" << endl;
+	cout << setw(10) << "" << "3. Yen" << endl;
+	cout << setw(10) << "" << "4. Rupees" << endl;
+	cout << setw(10) << "" << "5. Yuan" << endl;
+}
+
+void saveFile(Wallet &myWallet)
+{
+	int option;
+	cout << "Would you like to save the current information to a new file? " << endl;
+	cout << "Yes = 1, No = 2" << endl;
+	cout << "Please enter your option: ";
+	cin >> option;
+
+	if (option == 1)
+	{
+		ofstream outfile;
+		const string FILENAME = "My_Wallet.txt";
+		outfile.open(FILENAME);
+		if (outfile) {
+			outfile << "Current Balance: " << endl;
+			for (int i = 0; i < myWallet.getNumCurrencies(); i++) {
+				outfile << myWallet[i] << endl;
+			}
+			cout << "The file name " << FILENAME << " has been saved. " << endl;
+			
+		}
+		else if (outfile.fail()) {
+			cout << "Sorry, the file cannot be saved currently!" << endl;
+		}
+		outfile.close();
+	}
+	else if (option == 2)
+	{
+		cout << "No file saved." << endl;
+	}
+	else {
+
+		cout << "\nInvalid input!" << endl;
+		return;
+	}
+
+	return;
 }

@@ -38,38 +38,44 @@ double Currency::getTotal() const
 
 Currency Currency::operator+(const Currency &right)
 {
-	Currency temp;
-	temp.c_wholepart = this->c_wholepart +  right.c_wholepart;
-	temp.c_fractionPart = this->c_fractionPart + right.c_fractionPart;
-	std::cout << "overload operator +" << std::endl;
-	while (temp.c_fractionPart >= 1) 
+	this->c_wholepart += right.c_wholepart;
+	this->c_fractionPart += right.c_fractionPart;
+	while (this->c_fractionPart >= 1)
 	{
-		temp.c_wholepart += 1;
-		temp.c_fractionPart -= 1;
-
+		this->c_wholepart += 1;
+		this->c_fractionPart -= 1;
 	}
-	return temp;
+	return *this;
 }
 
 Currency Currency::operator-(const Currency &right)
 {
-	Currency temp;
-	temp.c_fractionPart = this-> c_fractionPart - right.c_fractionPart;
-	while (temp.c_fractionPart < 0)
+	if (this->getTotal() >= right.getTotal())
 	{
-		temp.c_wholepart -= 1;
-		temp.c_fractionPart += 1;
+		this->c_fractionPart -= right.c_fractionPart;
+		while (this->c_fractionPart < 0)
+		{
+			this->c_wholepart -= 1;
+			this->c_fractionPart += 1;
+		}
+		this->c_wholepart -= right.c_wholepart;
 	}
-	temp.c_wholepart = this->c_wholepart - right.c_wholepart;
-	
-	return temp;
+
+	else
+	{
+		std::cout << "The maximum spending available is " << this->getTotal() << this->getName() << std::endl; 
+		this->c_wholepart = 0;
+		this->c_fractionPart = 0;
+
+	}
+	return *this;
 }
 
 
 
 std::ostream & operator<<(std::ostream &ostrm, const Currency &obj)
 {
-	ostrm << obj.c_wholepart << " " << obj.getName() << " " << obj.c_fractionPart*100 << " " << obj.getFracName() << std::endl;
+	ostrm << obj.c_wholepart << " " << obj.getName() << " " << obj.c_fractionPart*100 << " " << obj.getFracName() ;
 	//assuming fraction part is stored as 0.xx value
 	return ostrm;
 

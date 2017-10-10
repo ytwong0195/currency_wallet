@@ -1,5 +1,10 @@
 #include "Wallet.h"
-//#include "Currency.h"
+#include "currency.h"
+//#include "c_Dollar.h"
+//#include "c_Euro.h"
+//#include "c_Rupee.h"
+//#include "c_Yen.h"
+//#include "c_Yuan.h"
 
  const int MAX_CURR = 5;
 
@@ -7,6 +12,7 @@
 Wallet::Wallet() 
 {
 	numberOfCurrencies = 0;
+
 }
 
 Wallet::~Wallet() 
@@ -29,7 +35,22 @@ bool Wallet::isEmpty()
 	return false;
 }
 
-void Wallet::addCurrency(Currency*input, Wallet myWallet)
+Currency Wallet::operator[](int index)
+{
+	Currency error ;
+	if (index >= 5)
+	{
+		std::cout << "error - index out of bound" << std::endl;
+		return error;//or return first element? 
+	}
+	else
+	{
+		return c_array[index];
+
+	}
+}
+
+void Wallet::addCurrency(Currency*input, Wallet &myWallet)
 {
 	if (myWallet.getNumCurrencies()>=MAX_CURR)
 	{
@@ -40,15 +61,15 @@ void Wallet::addCurrency(Currency*input, Wallet myWallet)
 		
 		 if (currencyCheck(input, myWallet) == -1)
 		{
-			std::cout << "add currency -> currency check = -1 " << std::endl;
-			std::cout << "number of currrency "<< myWallet.getNumCurrencies() << std:: endl;
+			std::cout << "The currency '" << input->getName() << "' has no previous record. " << std::endl;
 			myWallet.c_array[myWallet.getNumCurrencies()] = *input;
 			myWallet.numberOfCurrencies += 1;
+			std::cout << "The currency '" << input->getName() << "' will be added to this wallet. " << std::endl;
 		}
 	}
 }
 
-void Wallet::addValue(Currency *input, Wallet myWallet)
+void Wallet::addValue(Currency *input, Wallet &myWallet)
 {
 	int c_type = currencyCheck(input, myWallet);
 	int confirm;
@@ -63,7 +84,7 @@ void Wallet::addValue(Currency *input, Wallet myWallet)
 		std::cin >> confirm;
 		if (confirm == 1)
 		{
-			std::cout << "the amount in myWallet is " << myWallet[c_type] << std::endl;
+
 			myWallet.c_array[c_type] = myWallet.c_array[c_type] + temp;
 			std::cout << temp << " has been added." << std::endl;
 			std::cout << "The total is now " << myWallet[c_type];
@@ -74,7 +95,7 @@ void Wallet::addValue(Currency *input, Wallet myWallet)
 
 }
 
-void Wallet::subtract(Currency*input, Wallet myWallet) //TODO: not yet validate negative result
+void Wallet::subtract(Currency*input, Wallet &myWallet) //TODO: not yet validate negative result
 {
 	int c_type = currencyCheck(input, myWallet);
 	int confirm;
@@ -90,7 +111,7 @@ void Wallet::subtract(Currency*input, Wallet myWallet) //TODO: not yet validate 
 		if (confirm == 1)
 		{
 			myWallet.c_array[c_type] = myWallet.c_array[c_type] - temp;
-			std::cout << temp << " has been deducted." << std::endl;
+			
 			std::cout << "The total is now " << myWallet.c_array[c_type] << std::endl;
 		}
 
@@ -100,7 +121,7 @@ void Wallet::subtract(Currency*input, Wallet myWallet) //TODO: not yet validate 
 }
 
 
-void Wallet::emptyWallet(Wallet myWallet)
+void Wallet::emptyWallet(Wallet &myWallet)
 {
 	int confirm = 2;
 
@@ -125,38 +146,23 @@ void Wallet::emptyWallet(Wallet myWallet)
 
 int Wallet::currencyCheck(Currency* input, Wallet myWallet)
 {
-	int currencyPosition = -1;
-	for (int pos = 0; pos < numberOfCurrencies; pos++)
+	int currencyPosition;
+	for (int pos = 0; pos < 5; pos++)
 	{
+	
 		if (input->getName() == myWallet.c_array[pos].getName()) 
 		{
-			std::cout << "the currency is at position " << pos << std:: endl;
 			currencyPosition = pos;
 			return currencyPosition;
 		}
 	}
 
-	std::cout << "currency does not have information" << std::endl;
-	return currencyPosition;
+	return -1;
 	
 }
 
-void Wallet::displayWallet(int index, Wallet myWallet)
+void Wallet::displayWallet(int index, Wallet &myWallet)
 {
-	std::cout << myWallet.c_array[index].getTotal() << " " << myWallet.c_array[index].getName() << std::endl;
+	std::cout << "Current Balance: " << myWallet.c_array[index].getTotal() << " " << myWallet.c_array[index].getName() << std::endl << std::endl;
 }
 
-double Wallet::operator[](int index)
-{
-	double error = -1;
-	if (index >= 5)
-	{
-		std::cout << "error - index out of bound" << std::endl;
-			return error;//or return first element? 
-	}
-	else
-	{
-		return c_array[index].getTotal();
-		
-	}
-}
