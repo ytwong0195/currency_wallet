@@ -17,7 +17,10 @@ By Ying Tung Wong, Christian Magpantay
 #include "c_Yuan.h"
 #include "c_Rupee.h"
 #include "wallet.h"
-
+#include "linkedList.h"
+#include "listIF.h"
+#include "node.h"
+#include "linkedStack.h"
 
 
 /*
@@ -56,6 +59,7 @@ back to main
 if exit,
 exit program
 */
+
 int displayMainMenu();
 void displayOptions();
 void saveFile(Wallet&);
@@ -65,6 +69,9 @@ int main()
 {
 	int currnc = 0;
 	int choice = 0;
+	LinkedStack<bool> aStack; //trying to test isEmpty function
+	LinkedStack<string> aStack;
+
 	Wallet wlet;
 
 	Currency * dollar = new c_Dollar();
@@ -91,19 +98,24 @@ int main()
 			displayOptions();
 			cin >> currnc;
 			
-			if (currnc == USD) {
+			if (currnc == USD) 
+			{
 				temp_curr = dollar;
 			}
-			if (currnc == EURO) {
+			if (currnc == EURO) 
+			{
 				temp_curr = euro;
 			}
-			if (currnc == RUPEES) {
+			if (currnc == RUPEES) 
+			{
 				temp_curr = rupee;
 			}
-			if (currnc == YEN) {
+			if (currnc == YEN) 
+			{
 				temp_curr = yen;
 			}
-			if (currnc == YUAN) {
+			if (currnc == YUAN) 
+			{
 				temp_curr = yuan;
 			}
 				int exist = wlet.currencyCheck(temp_curr, wlet);
@@ -178,7 +190,7 @@ int main()
 		}//end DISPLAY
 		case EMPTY:
 		{
-			wlet.emptyWallet(wlet);
+			aStack.isEmpty(wlet);
 			cout << "\nWallet is now empty!" << endl;
 			
 			break;

@@ -47,5 +47,20 @@
     <ClInclude Include="Wallet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stackIF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="listIF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linkedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="linkedStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -126,6 +126,11 @@
     <ClInclude Include="c_Yen.h" />
     <ClInclude Include="c_Yuan.h" />
     <ClInclude Include="c_Rupee.h" />
+    <ClInclude Include="linkedList.h" />
+    <ClInclude Include="listIF.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="linkedStack.h" />
+    <ClInclude Include="stackIF.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
