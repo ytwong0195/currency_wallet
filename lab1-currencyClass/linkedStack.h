@@ -1,6 +1,7 @@
 #pragma once
 #ifndef LINKED_STACK_H
 #define LINKED_STACK_H
+#include <cassert>
 #include "stackIF.h"
 
 template < class ItemType>
@@ -8,7 +9,7 @@ class LinkedStack : public StackInterface<ItemType>
 {
 private:
 	Node<ItemType>* topPtr; // Pointer to first node in the chain;
-							// this node contains the stack’s top
+							// this node contains the stackï¿½s top
 public:
 	// Constructors and destructor:
 	LinkedStack() : topPtr(nullptr) {}; // Default constructor
@@ -47,11 +48,11 @@ public:
 			pop();
 	}; // Destructor
 							// Stack operations:
-	bool isEmpty() const 
+	bool isEmpty() const
 	{
 		return topPtr == nullptr;
 	};
-	bool push(const ItemType& newItem) 
+	bool push(const ItemType& newItem)
 	{
 		Node<ItemType>* newNodePtr = new Node<ItemType>(newItem, topPtr);
 		topPtr = newNodePtr;
@@ -60,7 +61,7 @@ public:
 			248 CHAPTER 7 Implementations of the ADT Stack
 			return true;
 	};
-	bool pop() 
+	bool pop()
 	{
 		bool result = false;
 		if (!isEmpty())
@@ -76,7 +77,7 @@ public:
 		} // end if
 		return result;
 	};
-	ItemType peek() const 
+	ItemType peek() const
 	{
 		assert(!isEmpty()); // Enforce precondition
 							// Stack is not empty; return top
