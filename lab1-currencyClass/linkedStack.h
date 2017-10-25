@@ -49,7 +49,7 @@ public:
 			pop();
 	}; // Destructor
 							// Stack operations:
-	bool isEmpty() const
+	virtual bool isEmpty() const
 	{
 		return topPtr == nullptr;
 	};
@@ -63,6 +63,7 @@ public:
 	bool pop()
 	{
 		bool result = false;
+
 		if (!isEmpty())
 		{
 			// Stack is not empty; delete top
@@ -76,6 +77,11 @@ public:
 		} // end if
 		return result;
 	};
+	virtual void clear() {
+		while (!isEmpty()) {
+			pop();
+		}
+	}
 	ItemType peek() const
 	{
 		assert(!isEmpty()); // Enforce precondition

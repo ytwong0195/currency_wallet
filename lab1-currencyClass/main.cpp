@@ -1,8 +1,7 @@
 /*
-Lab 1
-This program simulates a wallet during a foreign trip
-by adding or subracting different currencies by the user or
-displaying or emptying the contents of the wallet.
+Lab 2
+This program allows user to choose between linked-based / stack-based operation 
+User can add/remove currency, display/empty wallet.
 By Ying Tung Wong, Christian Magpantay
 */
 
@@ -24,40 +23,22 @@ By Ying Tung Wong, Christian Magpantay
 
 
 /*
-Main
-Psuedocode:
+
+Program will first ask user to choose between linked-based or stack-based operation.
 Program will show the user a series of options for the wallet program
 Ask user main prompts; add, remove, display, empty the entire contents of the wallet, or exit program
-while loop ( while choice is not exit program )
-if add,
-ask which currency
-ask how much will be added
-input validation for program
-if positive,
-output, input validation to user
-output, amount has added
-back to main
-if negative,
-output, unable to use negative
-ask for input
-if remove,
-ask which currency
-input validation for program
-try/catch
-try if input is within bounds
-catch if input is greater than amount in wallet
-output if amount subtracted is greater than amount in wallet
-input validation to user
-output amount has removed
-back to main
-if show,
-display wallet array
-if empty,
-print current state of wallet
-output to user of emptying contents
-back to main
-if exit,
-exit program
+
+for linked-based operation, user can add and remove a specific currency.
+the program will check if the currency exists in the wallet before adding / removing.
+(add/delete/find anywhere)
+
+for stack-based operation, user can add any currency.
+the program will not check if the currency has previously been added. 
+To remove a currency, the program will only remove the most recent currency in the wallet.
+(push,pop,peek)
+
+both operations are able to display and empty wallet.
+
 */
 
 int displayMainMenu();
@@ -330,10 +311,7 @@ int main()
 			}
 			else if (operation == STACK)
 			{
-				while (!wallet_stack->isEmpty())
-				{
-					int popNext = wallet_stack->pop();
-				}
+				wallet_stack->clear();
 				cout << "The wallet is now empty." << endl;
 
 			}
@@ -353,7 +331,20 @@ int main()
 	}
 		
 	system("pause");
-
+	delete wallet_stack;
+	delete wallet_list;
+	delete dollar;
+	delete euro;
+	delete rupees;
+	delete yen;
+	delete yuan;
+	wallet_stack = nullptr;
+	wallet_list = nullptr;
+	dollar = nullptr;
+	euro = nullptr;
+	rupees = nullptr;
+	yen = nullptr;
+	yuan = nullptr;
 	return 0;
 }
 
@@ -371,10 +362,10 @@ int displayMainMenu()
 	cout << endl << endl;
 	cout << setw(10) << "" << "Main Menu" << endl;
 	cout << setw(10) << "" << "============================" << endl;
-	cout << setw(10) << "" << "1. Insert a specific currency? " << endl;
-	cout << setw(10) << "" << "2. Remove currency? " << endl;
-	cout << setw(10) << "" << "3. Show the contents of your wallet? " << endl;
-	cout << setw(10) << "" << "4. Empty the contents of your wallet? " << endl;
+	cout << setw(10) << "" << "1. Insert a specific currency " << endl;
+	cout << setw(10) << "" << "2. Remove currency " << endl;
+	cout << setw(10) << "" << "3. Show the contents of your wallet " << endl;
+	cout << setw(10) << "" << "4. Empty the contents of your wallet " << endl;
 	cout << setw(10) << "" << "5. Exit the program." << endl << endl;
 	cout << "Please enter the number of your choice." << endl;
 	cin >> choice;
