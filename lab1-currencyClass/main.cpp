@@ -83,8 +83,22 @@ int main()
 	
 	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
 	enum MAIN_MENU_CHOICE { ADD = 1, REMOVE, DISPLAY, EMPTY, EXIT };
+	enum OPERATION_TYPE{ LIST = 1, STACK };
+	
 	LinkedList <Currency*> *wallet_list = nullptr;
 	wallet_list = new LinkedList<Currency*>();
+
+	LinkedStack <Currency*> *wallet_stack = nullptr;
+	wallet_stack = new LinkedStack<Currency*>();
+
+	int operation; 
+
+	cout << "Please choose: 1)List-Based implementation or 2)Stack-based implementation: " << endl;
+	cin >> operation;
+	while (operation != LIST && operation != STACK)
+	{
+		cout << "Please enter 1 or 2 :";
+	}
 
 	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
 
@@ -121,10 +135,12 @@ int main()
 				temp_node = yuan;
 			} 
 			
-				bool empty= wallet_list->isEmpty();
-				if (empty == true)//add first currency(node) is empty
-				{	
-					int position = wallet_list->getLength() + 1 ;
+			if (operation == LIST) 
+			{
+				bool empty = wallet_list->isEmpty();
+				if (empty == true)//add first currency(node), list is empty
+				{
+					int position = wallet_list->getLength() + 1;
 					bool insertSuccess = wallet_list->insert(position, temp_node.getItem());
 					if (insertSuccess == true)
 					{
@@ -134,12 +150,12 @@ int main()
 					{
 						cout << "Currency insert failed." << endl;
 					}
-						
+
 				}
-				else if (empty == false ) //find if the currency exist, else insert
+				else if (empty == false) //find if the currency exist, else insert
 				{
 					int exist = wallet_list->contains(temp_node.getItem());
-					if (exist <=0 ) //currency does not exist
+					if (exist <= 0) //currency does not exist
 					{
 						int position = wallet_list->getLength() + 1;
 						bool insertSuccess = wallet_list->insert(position, temp_node.getItem());
@@ -156,86 +172,176 @@ int main()
 					{
 						cout << "Currency is already in the list." << endl;
 					}
+				}		
+			}
+			else if (operation == STACK)
+			{
+				int pushSuccess = wallet_stack->push(temp_node.getItem());
+				if (pushSuccess = true)
+				{
+					cout << "Currency added to stack successfully" << endl;
 				}
+				else
+				{
+					cout << "Currency has not been added to stack. " << endl;
+				}
+			}
 			
 			break;
 		}//end ADD
 
 		case REMOVE:
 		{
-			cout << "Please select the type of currency you would like to remove." << endl;
-			displayOptions();
-			cin >> currnc;
-			if (currnc == USD) {
-				temp_node = dollar;
-			}
-			if (currnc == EURO) {
-				temp_node = euro;
-			}
-			if (currnc == RUPEES) {
-				temp_node = rupees;
-			}
-			if (currnc == YEN) {
-				temp_node = yen;
-			}
-			if (currnc == YUAN) {
-				temp_node = yuan;
-			}
-			
-			int exist = wallet_list->contains(temp_node.getItem());
-			if (exist == 0 || exist > wallet_list->getLength())
+			if (operation == LIST) 
 			{
-				cout << "The currency has no information available, you may add this currency at the main menu. " << endl;
-			}
-			else if (exist >=1 && exist <= wallet_list->getLength())
-			{
-				int position = wallet_list->getPosition(temp_node.getItem());
-				bool removeSuccess = wallet_list->remove(position);
-				if (removeSuccess == true)
-				{
-					cout << "Currency remove successfull." << endl;
+				cout << "Please select the type of currency you would like to remove." << endl;
+				displayOptions();
+				cin >> currnc;
+				if (currnc == USD) {
+					temp_node = dollar;
 				}
-				else
+				if (currnc == EURO) {
+					temp_node = euro;
+				}
+				if (currnc == RUPEES) {
+					temp_node = rupees;
+				}
+				if (currnc == YEN) {
+					temp_node = yen;
+				}
+				if (currnc == YUAN) {
+					temp_node = yuan;
+				}
+
+				int exist = wallet_list->contains(temp_node.getItem());
+				if (exist == 0 || exist > wallet_list->getLength())
 				{
-					cout << "Currency remove failed." << endl;
+					cout << "The currency has no information available, you may add this currency at the main menu. " << endl;
+				}
+				else if (exist >= 1 && exist <= wallet_list->getLength())
+				{
+					int position = wallet_list->getPosition(temp_node.getItem());
+					bool removeSuccess = wallet_list->remove(position);
+					if (removeSuccess == true)
+					{
+						cout << "Currency remove successfull." << endl;
+					}
+					else
+					{
+						cout << "Currency remove failed." << endl;
+					}
+
 				}
 				
 			}
+			else if (operation == STACK)
+			{
+				bool emptyStack = wallet_stack->isEmpty();
+				if (emptyStack == true)
+				{
+					cout << "The Wallet stack has no currency left :(" << endl << endl ;
+				}
+				else if (emptyStack == false)
+				{
+					int popStack;
+					cout << "The most recent curency added to the wallet is " << wallet_stack->peek()->getName() << endl;
+					cout << "Do you want to delete this? Yes = 1, No = 2" << endl;
+					cout << "Please enter your choice : ";
+					cin >> popStack;
+					while (popStack != 1 && popStack != 2)
+					{
+						cout << "Please enter 1 or 2: " << endl;
+					}
+					if (popStack == 1)
+					{
+						bool popSuccess = wallet_stack->pop();
+						if (popSuccess == true)
+						{
+							cout << "The most recent currency has been removed successfully." << endl << endl;
+						}
+						else if (popSuccess == false)
+						{
+							cout << "Failed to remove the currency." << endl << endl;
+						}
+					}
+					else if (popStack == 2)
+					{
+						cout << "The currency will not be removed." << endl << endl;
+					}
+				}
+			}
+			
 		
 			break;
 		}//end REMOVE
 		case DISPLAY:
 		{
-			//display wallet array object
-			if (wallet_list->getLength()==0) 
-			{
-				cout << "The wallet is empty :(" << endl;
-			}
-			else
-			{
-				cout << "WALLET INFO" << endl;
-				cout << "==============================" << endl << endl;
-				for (int i = 1; i <= wallet_list->getLength(); i++)
+			if (operation == LIST) {
+				//display wallet 
+				if (wallet_list->getLength() == 0)
 				{
-					cout<< wallet_list->getEntry(i)->getName() <<endl ;
-					
+					cout << "The wallet is empty :(" << endl << endl;
 				}
-				cout << "\nAll Wallet contents displayed!" << endl;
-				//saveFile();
-			
+				else
+				{
+					cout << "WALLET INFO" << endl;
+					cout << "==============================" << endl << endl;
+					for (int i = 1; i <= wallet_list->getLength(); i++)
+					{
+						cout << wallet_list->getEntry(i)->getName() << endl;
+
+					}
+					cout << "\nAll Wallet contents displayed!" << endl << endl;
+					//saveFile();
+
+				}
 			}
 			
+			else if (operation == STACK)
+			{
+				if (wallet_stack->isEmpty())
+				{
+					cout << "The wallet is empty :(" << endl << endl;
+				}
+				else
+				{
+					LinkedStack <Currency*> *duplicateStack = nullptr;
+					duplicateStack = new LinkedStack<Currency*>(*wallet_stack);
+
+					cout << "WALLET INFO" << endl;
+					cout << "==============================" << endl << endl;
+					while (!duplicateStack->isEmpty())
+					{
+						cout << duplicateStack->peek()->getName() << endl;
+						int popToDisplayNext = duplicateStack->pop();
+					}
+					delete duplicateStack;
+					duplicateStack = nullptr;
+				}
+			}
 			break;
 		}//end DISPLAY
 		case EMPTY:
 		{
-			wallet_list->clear();
-			cout << "\nWallet is now empty!" << endl;
+			if (operation == LIST)
+			{
+				wallet_list->clear();
+				cout << "\nWallet is now empty!" << endl;
+			}
+			else if (operation == STACK)
+			{
+				while (!wallet_stack->isEmpty())
+				{
+					int popNext = wallet_stack->pop();
+				}
+				cout << "The wallet is now empty." << endl;
+
+			}
 			
 			break;
 		}//end EMPTY
 		}//end SWITCH
-		cout << "Returning to main menu!" << endl << endl;
+		cout << "\nReturning to main menu!" << endl << endl;
 		choice = displayMainMenu();
 	}//end WHILE
 		
@@ -266,7 +372,7 @@ int displayMainMenu()
 	cout << setw(10) << "" << "Main Menu" << endl;
 	cout << setw(10) << "" << "============================" << endl;
 	cout << setw(10) << "" << "1. Insert a specific currency? " << endl;
-	cout << setw(10) << "" << "2. Remove from a specific currency? " << endl;
+	cout << setw(10) << "" << "2. Remove currency? " << endl;
 	cout << setw(10) << "" << "3. Show the contents of your wallet? " << endl;
 	cout << setw(10) << "" << "4. Empty the contents of your wallet? " << endl;
 	cout << setw(10) << "" << "5. Exit the program." << endl << endl;

@@ -16,7 +16,7 @@ public:
 	LinkedStack() : topPtr(nullptr) {}; // Default constructor
 	LinkedStack(const LinkedStack<ItemType>& aStack)
 	{
-		Node<ItemType>* origChainPtr = aStack->topPtr;
+		Node<ItemType>* origChainPtr = aStack.topPtr;
 		if (origChainPtr == nullptr)
 			topPtr = nullptr; // Original bag is empty
 		else
@@ -27,7 +27,7 @@ public:
 			// Point to first node in new chain
 			Node<ItemType>* newChainPtr = topPtr;
 			// Copy remaining nodes
-			while (origChainPtr != nullptr)
+			while (origChainPtr->getNext() != nullptr)
 			{
 				// Advance original-chain pointer
 				origChainPtr = origChainPtr->getNext();
@@ -58,9 +58,7 @@ public:
 		Node<ItemType>* newNodePtr = new Node<ItemType>(newItem, topPtr);
 		topPtr = newNodePtr;
 		newNodePtr = nullptr;
-		(continues)
-			248 CHAPTER 7 Implementations of the ADT Stack
-			return true;
+		return true;
 	};
 	bool pop()
 	{

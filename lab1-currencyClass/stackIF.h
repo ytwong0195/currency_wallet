@@ -1,7 +1,7 @@
-#pragma once
+
 #ifndef STACK_IF_H
 #define STACK_IF_H
-#endif // !STACK_IF_H
+
 
 template<class ItemType>
 class StackInterface

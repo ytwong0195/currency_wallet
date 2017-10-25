@@ -182,15 +182,7 @@ public:
 		return (getPosition(anEntry));
 	}// end contains
 
-	bool add(const ItemType& newEntry)
-	{
-		Node(ItemType) * newNodePtr = new Node<ItemType>();
-		newNodePtr->setItem(newEntry);
-		newNodePtr->setNext(headPtr);
-		headPtr = newNodePtr;
-		itemCount++;
-		return true;
-	}
+
 }; // end LinkedList
 
 #endif // !LINKEDLIST_H
