@@ -69,20 +69,22 @@ int main()
 {
 	int currnc = 0;
 	int choice = 0;
-	LinkedStack<bool> aStack; //trying to test isEmpty function
-	LinkedStack<string> aStack;
+	//LinkedStack<bool> aStack; //trying to test isEmpty function
+	//LinkedStack<string> aStack;
 
-	Wallet wlet;
-
+	//Wallet wlet;
 	Currency * dollar = new c_Dollar();
 	Currency * euro = new c_Euro();
-	Currency * rupee = new c_Rupee();
+	Currency * rupees = new c_Rupee();
 	Currency * yen = new c_Yen();
 	Currency * yuan = new c_Yuan();
-	Currency * temp_curr = nullptr;
 
+	Node <Currency*> temp_node;
+	
 	enum C_TYPE { USD = 1, EURO, YEN, RUPEES, YUAN };
-	enum MAIN_MENU_CHOICE { ADD = 1, SUBTRACT, DISPLAY, EMPTY, EXIT };
+	enum MAIN_MENU_CHOICE { ADD = 1, REMOVE, DISPLAY, EMPTY, EXIT };
+	LinkedList <Currency*> *wallet_list = nullptr;
+	wallet_list = new LinkedList<Currency*>();
 
 	cout << "This wallet program will contain all of your currencies during your trip!" << endl;
 
@@ -100,97 +102,134 @@ int main()
 			
 			if (currnc == USD) 
 			{
-				temp_curr = dollar;
+				temp_node = dollar;
 			}
 			if (currnc == EURO) 
 			{
-				temp_curr = euro;
+				temp_node = euro;
 			}
 			if (currnc == RUPEES) 
 			{
-				temp_curr = rupee;
+				temp_node = rupees;
 			}
 			if (currnc == YEN) 
 			{
-				temp_curr = yen;
+				temp_node = yen;
 			}
 			if (currnc == YUAN) 
 			{
-				temp_curr = yuan;
-			}
-				int exist = wlet.currencyCheck(temp_curr, wlet);
-				if (exist == -1)//add currency if not exist
-				{
-					wlet.addCurrency(temp_curr, wlet);
-					wlet.addValue(temp_curr, wlet);
+				temp_node = yuan;
+			} 
+			
+				bool empty= wallet_list->isEmpty();
+				if (empty == true)//add first currency(node) is empty
+				{	
+					int position = wallet_list->getLength() + 1 ;
+					bool insertSuccess = wallet_list->insert(position, temp_node.getItem());
+					if (insertSuccess == true)
+					{
+						cout << "Currency insert successfull." << endl;
+					}
+					else
+					{
+						cout << "Currency insert failed." << endl;
+					}
+						
 				}
-				else if (exist != -1)
+				else if (empty == false ) //find if the currency exist, else insert
 				{
-					wlet.addValue(temp_curr, wlet);
+					int exist = wallet_list->contains(temp_node.getItem());
+					if (exist <=0 ) //currency does not exist
+					{
+						int position = wallet_list->getLength() + 1;
+						bool insertSuccess = wallet_list->insert(position, temp_node.getItem());
+						if (insertSuccess == true)
+						{
+							cout << "Currency insert successfull." << endl;
+						}
+						else
+						{
+							cout << "Currency insert failed." << endl;
+						}
+					}
+					else  // currency exists
+					{
+						cout << "Currency is already in the list." << endl;
+					}
 				}
 			
 			break;
 		}//end ADD
 
-		case SUBTRACT:
+		case REMOVE:
 		{
-			cout << "Please select the type of currency you would like to subtract." << endl;
+			cout << "Please select the type of currency you would like to remove." << endl;
 			displayOptions();
 			cin >> currnc;
 			if (currnc == USD) {
-				temp_curr = dollar;
+				temp_node = dollar;
 			}
 			if (currnc == EURO) {
-				temp_curr = euro;
+				temp_node = euro;
 			}
 			if (currnc == RUPEES) {
-				temp_curr = rupee;
+				temp_node = rupees;
 			}
 			if (currnc == YEN) {
-				temp_curr = yen;
+				temp_node = yen;
 			}
 			if (currnc == YUAN) {
-				temp_curr = yuan;
+				temp_node = yuan;
 			}
 			
-			int exist = wlet.currencyCheck(temp_curr, wlet);
-			if (exist == -1)
+			int exist = wallet_list->contains(temp_node.getItem());
+			if (exist == 0 || exist > wallet_list->getLength())
 			{
 				cout << "The currency has no information available, you may add this currency at the main menu. " << endl;
 			}
-			else 
+			else if (exist >=1 && exist <= wallet_list->getLength())
 			{
-
-				wlet.subtract(temp_curr, wlet);
+				int position = wallet_list->getPosition(temp_node.getItem());
+				bool removeSuccess = wallet_list->remove(position);
+				if (removeSuccess == true)
+				{
+					cout << "Currency remove successfull." << endl;
+				}
+				else
+				{
+					cout << "Currency remove failed." << endl;
+				}
 				
 			}
 		
 			break;
-		}//end SUBTRACT
+		}//end REMOVE
 		case DISPLAY:
 		{
 			//display wallet array object
-			if (wlet.getNumCurrencies() == 0) 
+			if (wallet_list->getLength()==0) 
 			{
 				cout << "The wallet is empty :(" << endl;
 			}
 			else
 			{
 				cout << "WALLET INFO" << endl;
-				cout << "==============================" << endl;
-				for (int i = 0; i < wlet.getNumCurrencies(); i++)
+				cout << "==============================" << endl << endl;
+				for (int i = 1; i <= wallet_list->getLength(); i++)
 				{
-					wlet.displayWallet(i, wlet);
+					cout<< wallet_list->getEntry(i)->getName() <<endl ;
+					
 				}
-				cout << "All Wallet contents displayed!" << endl;
-				saveFile(wlet);
+				cout << "\nAll Wallet contents displayed!" << endl;
+				//saveFile();
+			
 			}
 			
 			break;
 		}//end DISPLAY
 		case EMPTY:
 		{
-			aStack.isEmpty(wlet);
+			wallet_list->clear();
 			cout << "\nWallet is now empty!" << endl;
 			
 			break;
@@ -202,8 +241,8 @@ int main()
 		
 	if (choice == EXIT)
 	{
-		cout << "Before you exit...." << endl;
-		saveFile(wlet);
+		//cout << "Before you exit...." << endl;
+		//saveFile();
 		cout << "The program will now exit. Thank you for using!" << endl;
 	}
 		
@@ -226,8 +265,8 @@ int displayMainMenu()
 	cout << endl << endl;
 	cout << setw(10) << "" << "Main Menu" << endl;
 	cout << setw(10) << "" << "============================" << endl;
-	cout << setw(10) << "" << "1. Add to a specific currency? " << endl;
-	cout << setw(10) << "" << "2. Subtract from a specific currency? " << endl;
+	cout << setw(10) << "" << "1. Insert a specific currency? " << endl;
+	cout << setw(10) << "" << "2. Remove from a specific currency? " << endl;
 	cout << setw(10) << "" << "3. Show the contents of your wallet? " << endl;
 	cout << setw(10) << "" << "4. Empty the contents of your wallet? " << endl;
 	cout << setw(10) << "" << "5. Exit the program." << endl << endl;

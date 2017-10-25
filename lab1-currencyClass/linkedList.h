@@ -1,8 +1,10 @@
-#pragma once
+#pragma warning( disable : 4290 )  
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 #include "listIF.h"
 #include "PrecondViolatedExcep.h"
+#include "node.h"
+#include <cassert>
 
 template < class ItemType>
 class LinkedList : public ListInterface<ItemType>
@@ -28,8 +30,8 @@ public:
 	{
 		clear();
 	};
-	bool isEmpty() const { return itemCount == 1;}
-	int getLength() const { return itemCount - 1; }
+	bool isEmpty() const { return itemCount == 0;}
+	int getLength() const { return itemCount ; }
 	bool insert(int newPosition, const ItemType& newEntry)
 	{
 		bool ableToInsert = (newPosition >= 1) &&
@@ -83,14 +85,14 @@ public:
 			curPtr->setNext(nullptr);
 			delete curPtr;
 			curPtr = nullptr;
-			itemCount– - ; // Decrease count of entries
+			itemCount-- ; // Decrease count of entries
 		} // end if
 		return ableToRemove;
 	} // end remove;
 	void clear()
 	{
-		while (!isEmpty()) { remove(2); };
-	};\
+		while (!isEmpty()) { remove(1); };
+	};
 	ItemType getEntry(int position) const throw(PrecondViolatedExcep)
 	{
 		// Enforce precondition
@@ -109,10 +111,10 @@ public:
 	};
 	void setEntry(int position, const ItemType& newEntry)
 	{
-		bool ableToSet = (position > 1) && (position <= itemCount);
+		bool ableToSet = (position >= 1) && (position <= itemCount);
 		if (ableToSet)
 		{
-			Node* myPrevNodePtr = getNodeAt(position);
+			Node<ItemType>* myPrevNodePtr = getNodeAt(position);
 			myPrevNodePtr->setItem(newEntry);
 		}
 		else
@@ -121,7 +123,74 @@ public:
 			message = message + "invalid position.";
 			throw(PrecondViolatedExcep(message));
 		}
-	throw (PrecondViolatedExcep);
+		//throw (PrecondViolatedExcep(message));
+	}
+
+	Node<ItemType>* getPointerTo(const ItemType& target) const
+	{
+		bool found = false;
+		Node<ItemType>* currPtr = headPtr;
+		while (!found && currPtr != nullptr)
+		{
+			if (target == currPtr->getItem())
+			{
+				found = true;
+			}
+			else
+			{
+				currPtr = currPtr->getNext();
+			}
+		}//end while
+		return currPtr;
+	}//end getPointerTo
+
+	int getPosition(const ItemType& target) const
+	{
+		int position = 0;
+		if (itemCount == 0) {
+			position = 0;
+			return position;
+		}
+		else
+		{
+			position = 1;
+			Node<ItemType>* currPtr = headPtr;
+			
+			while (target != currPtr->getItem() && currPtr->getNext() != nullptr)
+			{
+				currPtr = currPtr->getNext();
+				position++;
+			}//end while
+			if (target == currPtr->getItem())
+			{
+				return position;
+			}
+			else if (position==itemCount)
+			{
+				cout << "not found" << endl;
+				position = -1;
+				
+			}
+			
+		}
+		return position;
+		
+	}
+
+	int contains(const ItemType& anEntry)
+	{
+		return (getPosition(anEntry));
+	}// end contains
+
+	bool add(const ItemType& newEntry)
+	{
+		Node(ItemType) * newNodePtr = new Node<ItemType>();
+		newNodePtr->setItem(newEntry);
+		newNodePtr->setNext(headPtr);
+		headPtr = newNodePtr;
+		itemCount++;
+		return true;
+	}
 }; // end LinkedList
 
 #endif // !LINKEDLIST_H

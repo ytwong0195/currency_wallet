@@ -1,11 +1,12 @@
-#pragma once
+
 #ifndef LINKED_STACK_H
 #define LINKED_STACK_H
 #include <cassert>
-#include "stackIF.h"
+#include "linkedList.h"
+
 
 template < class ItemType>
-class LinkedStack : public StackInterface<ItemType>
+class LinkedStack : protected LinkedList<ItemType>
 {
 private:
 	Node<ItemType>* topPtr; // Pointer to first node in the chain;
@@ -82,7 +83,7 @@ public:
 		assert(!isEmpty()); // Enforce precondition
 							// Stack is not empty; return top
 		return topPtr->getItem();
-	};
+	}
 }; // end LinkedStack
 
 #endif // !LINKED_STACK_H
