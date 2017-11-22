@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BinaryNode.h" />
+    <ClInclude Include="BinaryNodeTree.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinaryTreeInterface.h" />
     <ClInclude Include="Node.h" />

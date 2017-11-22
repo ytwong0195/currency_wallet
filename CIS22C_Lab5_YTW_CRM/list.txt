@@ -1,1 +1,32 @@
-//will put name and birthday, line by line here
+Stephen Hawking
+1942 01 08
+Muhammad Ali
+1942 01 17
+Issac Newton
+1643 01 04
+Benjamin Franklin
+1706 01 17
+Skrillex
+1988 01 15
+Orlando Bloom
+1977 01 13
+Lady Gaga
+1986 03 28
+Keira Knightley
+1985 03 26
+Jhene Aiko
+1988 03 08
+Taro Magpantay
+1991 03 08
+Lil Wayne
+1982 09 27
+Jada Pinkett Smith
+1971 09 18
+Freddie Mercury
+1946 09 05
+Will Smith
+1968 09 25
+Ellie Goulding
+1986 12 30
+Nicki Minaj
+1982 12 08
