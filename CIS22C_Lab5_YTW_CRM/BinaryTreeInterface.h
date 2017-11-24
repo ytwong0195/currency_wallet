@@ -1,7 +1,12 @@
-#pragma once
+#pragma warning( disable : 4290 )  
 #ifndef _BINARY_TREE_INTERFACE
 #define _BINARY_TREE_INTERFACE
-template < class ItemType>
+
+#include "NotFoundException.h"
+#include <stdexcept>
+#include <string>
+
+template <class ItemType>
 class BinaryTreeInterface
 {
 public:
@@ -29,13 +34,10 @@ given data into the tree.
 	virtual void setRootData(const ItemType& newData) = 0;
 	/** Adds a new node containing the given data to this binary tree.
 	@param newData The data for the new node. */
-	@post The binary tree contains a new node.
-		@return True if the addition is successful, or false not. * /
-		virtual bool add(const ItemType& newData) = 0;
+	virtual bool add(const ItemType& newData) = 0;
 	/** Removes the node containing the given data item from this binary tree.
 	@param data The data value to remove from the binary tree. */
-	@return True if the removal is successful, or false not. * /
-		virtual bool remove(const ItemType& data) = 0;
+	virtual bool remove(const ItemType& data) = 0;
 	/** Removes all nodes from this binary tree. */
 	virtual void clear() = 0;
 	/** Gets a specific entry in this binary tree.
@@ -44,7 +46,7 @@ given data into the tree.
 	@param anEntry The entry to locate.
 	@return The entry in the binary tree that matches the given entry.
 	@throw NotFoundException if the given entry is not in the tree. */
-	virtual ItemType getEntry(const ItemType& anEntry) const
+	virtual ItemType getEntry(const ItemType& anEntry) const 
 		throw(NotFoundException) = 0;
 	/** Tests whether a given entry occurs in this binary tree.
 	@post The binary search tree is unchanged.

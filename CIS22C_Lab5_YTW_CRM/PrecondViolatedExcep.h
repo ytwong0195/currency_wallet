@@ -1,4 +1,4 @@
-#pragma once
+#pragma warning( disable : 4290 )  
 #ifndef _PRECOND_VIOLATED_EXCEP
 #define _PRECOND_VIOLATED_EXCEP
 #include <stdexcept>

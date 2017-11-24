@@ -1,4 +1,4 @@
-#pragma once
+#pragma warning( disable : 4290 ) 
 #ifndef _BINARY_NODE
 #define _BINARY_NODE
 
@@ -24,10 +24,9 @@ public:
 	void setLeftChildPtr(BinaryNode<ItemType>* leftPtr);
 	void setRightChildPtr(BinaryNode<ItemType>* rightPtr);
 }; // end BinaryNode
-#endif
 
 template<class ItemType>
-BinaryNode<ItemType>::BinaryNode() : item(nullptr), leftChildPTr(nullptr), rightChildPtr(nullptr)
+BinaryNode<ItemType>::BinaryNode() : item(nullptr), leftChildPtr(nullptr), rightChildPtr(nullptr)
 {}
 
 template<class ItemType>
@@ -47,7 +46,7 @@ void BinaryNode<ItemType>::setItem(const ItemType& anItem)
 }
 
 template<class ItemType>
-BinaryNode<ItemType>::getItem() const
+ItemType BinaryNode<ItemType>::getItem() const
 {
 	return item;
 }
@@ -71,13 +70,15 @@ void BinaryNode<ItemType>::setRightChildPtr(BinaryNode* rightPtr)
 }
 
 template<class ItemType>
-BinaryNode<ItemType>::getLeftChildPtr() const
+BinaryNode<ItemType>* BinaryNode<ItemType>::getLeftChildPtr() const
 {
 	return leftChildPtr;
 }
 
 template<class ItemType>
-BinaryNode<ItemType>::getRightChildPtr() const
+BinaryNode<ItemType>* BinaryNode<ItemType>::getRightChildPtr() const
 {
 	return rightChildPtr;
 }
+
+#endif

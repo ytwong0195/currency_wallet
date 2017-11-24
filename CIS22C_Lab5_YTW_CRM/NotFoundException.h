@@ -1,4 +1,4 @@
-#pragma once
+#pragma warning( disable : 4290 )  
 #ifndef _NOT_FOUND_EXCEPTION
 #define _NOT_FOUND_EXCEPTION
 #include <stdexcept>

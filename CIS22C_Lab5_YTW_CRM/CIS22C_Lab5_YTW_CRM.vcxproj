@@ -115,7 +115,6 @@
     <ClInclude Include="BinaryNodeTree.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinaryTreeInterface.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="NotFoundException.h" />
     <ClInclude Include="PrecondViolatedExcep.h" />
   </ItemGroup>
