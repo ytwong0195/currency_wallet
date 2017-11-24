@@ -1,3 +1,12 @@
 ﻿  main.cpp
-  CIS22C_Lab5_YTW_CRM.vcxproj -> C:\Users\Taro\source\repos\CIS22C_Lab5_YTW_CRM\Debug\CIS22C_Lab5_YTW_CRM.exe
-  CIS22C_Lab5_YTW_CRM.vcxproj -> C:\Users\Taro\source\repos\CIS22C_Lab5_YTW_CRM\Debug\CIS22C_Lab5_YTW_CRM.pdb (Partial PDB)
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(73): error C2143: syntax error: missing ';' before '<'
+  c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(86): note: see reference to class template instantiation 'BinarySearchTree<ItemType>' being compiled
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(73): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(73): error C2238: unexpected token(s) preceding ';'
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(74): error C2143: syntax error: missing ';' before '<'
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(74): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(74): error C2238: unexpected token(s) preceding ';'
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(383): error C2244: 'BinaryNodeTree<ItemType>::getLeftChildPtr': unable to match function definition to an existing declaration
+  c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(382): note: see declaration of 'BinaryNodeTree<ItemType>::getLeftChildPtr'
+c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(389): error C2244: 'BinaryNodeTree<ItemType>::getRightChildPtr': unable to match function definition to an existing declaration
+  c:\users\taro\source\repos\cis22c_lab5_ytw_crm\cis22c_lab5_ytw_crm\binarysearchtree.h(388): note: see declaration of 'BinaryNodeTree<ItemType>::getRightChildPtr'

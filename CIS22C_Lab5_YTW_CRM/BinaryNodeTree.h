@@ -13,6 +13,9 @@ template < class ItemType>
 class BinaryNodeTree : public BinaryTreeInterface<ItemType>
 {
 private:
+	ItemType item; // Data portion
+	BinaryNode<ItemType>* leftChildPtr; // Pointer to left child
+	BinaryNode<ItemType>* rightChildPtr; // Pointer to right child
 	BinaryNode<ItemType>* rootPtr;
 protected:
 	//------------------------------------------------------------
@@ -75,6 +78,8 @@ public:
 	void clear();
 	ItemType getEntry(const ItemType& anEntry) const throw (NotFoundException);
 	bool contains(const ItemType& anEntry) const;
+	BinaryNode<ItemType>* getLeftChildPtr() const;
+	BinaryNode<ItemType>* getRightChildPtr() const;
 	//------------------------------------------------------------
 	// Public Traversals Section.
 	//------------------------------------------------------------
@@ -428,5 +433,16 @@ BinaryNodeTree<ItemType>& BinaryNodeTree<ItemType>::operator=(const BinaryNodeTr
 	}
 }
 
+template<class ItemType>
+BinaryNode<ItemType>* BinaryNodeTree<ItemType>::getLeftChildPtr() const
+{
+	return leftChildPtr;
+}
+
+template<class ItemType>
+BinaryNode<ItemType>* BinaryNodeTree<ItemType>::getRightChildPtr() const
+{
+	return rightChildPtr;
+}
 
 #endif

@@ -15,8 +15,8 @@ private:
 	std::string fname;
 	std::string lname;
 	std::string bday;
-	BinaryNode<ItemType>* leftPtr;
-	BinaryNode<ItemType>* rightPtr;
+	BinaryNode<ItemType>* leftChildPtr; // Pointer to left child
+	BinaryNode<ItemType>* rightChildPtr;
 	BinaryNode<ItemType>* rootPtr;
 protected:
 	//------------------------------------------------------------
@@ -69,6 +69,9 @@ public:
 		throw (NotFoundException);
 	bool contains(const ItemType& anEntry) const;
 	bool replace(const ItemType& anEntry, const ItemType& replaceEntry);
+	int search(BinarySearchTree<ItemType>* treePtr, const ItemType& target);
+	BinaryTreeNode<ItemType>* getLeftChildPtr() const;
+	BinaryTreeNode<ItemType>* getRightChildPtr() const;
 	//------------------------------------------------------------
 	// Public Traversals Section.
 	//------------------------------------------------------------
@@ -268,11 +271,33 @@ bool BinarySearchTree<ItemType>::add(const ItemType& newData)
 } // end add
 
 template <class ItemType>
-bool BinarySearchTree<ItemType>::remove(const ItemType& data)
+bool BinarySearchTree<ItemType>::remove(const ItemType& anEntry)
 {
 	bool isSuccessful = false;
-	rootPtr = removeValue(rootPtr, data, isSuccessful);
+	rootPtr = removeValue(rootPtr, anEntry, isSuccessful);
 	return isSuccessful;
+}
+
+template <class ItemType>
+int BinarySearchTree<ItemType>::search(BinarySearchTree<ItemType>* treePtr, const ItemType& target)
+{
+
+	if (treePtr->isEmpty())
+	{
+		return(false);
+	}
+	else if (target == treePtr->getRootData())
+	{
+		return(true);
+	}
+	else if (target < treePtr->getRootData())
+	{
+		return(search(treePtr->getLeftChildPtr(), target));
+	}
+	else if (target > treePtr->getRootData())
+	{
+		return(search(treePtr->getRightChildPtr(), target));
+	}
 }
 
 template <class ItemType>
@@ -310,8 +335,8 @@ bool BinarySearchTree<ItemType>::replace(const ItemType& anEntry, const ItemType
 	bool item = contains(anEntry);
 	if (item == 1)
 	{
-		bool exist;
-		BinaryNode<ItemType>* newNodePtr = findNode(rootPtr, anEntry, exist);
+		//bool exist;
+		BinaryNode<ItemType>* newNodePtr = findNode(rootPtr, anEntry);
 		newNodePtr->setItem(replaceEntry);
 		return true;
 	}
@@ -351,6 +376,18 @@ operator=(const BinarySearchTree<ItemType>& rightHandSide)
 		this = copyTree(&rightHandSide);
 		return *this;
 	}
+}
+
+template<class ItemType>
+BinaryNodeTree<ItemType>* BinarySearchTree<ItemType>::getLeftChildPtr() const
+{
+	return leftChildPtr;
+}
+
+template<class ItemType>
+BinaryNodeTree<ItemType>* BinarySearchTree<ItemType>::getRightChildPtr() const
+{
+	return rightChildPtr;
 }
 
 #endif
