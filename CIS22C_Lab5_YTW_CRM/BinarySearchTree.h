@@ -70,14 +70,16 @@ public:
 	bool contains(const ItemType& anEntry) const;
 	bool replace(const ItemType& anEntry, const ItemType& replaceEntry);
 	int search(BinarySearchTree<ItemType>* treePtr, const ItemType& target);
-	BinaryTreeNode<ItemType>* getLeftChildPtr() const;
-	BinaryTreeNode<ItemType>* getRightChildPtr() const;
+	BinaryNodeTree<ItemType>* getLeftChildPtr() const;
+	BinaryNodeTree<ItemType>* getRightChildPtr() const;
 	//------------------------------------------------------------
 	// Public Traversals Section.
 	//------------------------------------------------------------
 	void preorderTraverse(void visit(ItemType&)) const;
 	void inorderTraverse(void visit(ItemType&)) const;
 	void postorderTraverse(void visit(ItemType&)) const;
+	void visit()const;
+	bool writeNameToFile(BinarySearchTree<ItemType>& aTree) const;
 	//------------------------------------------------------------
 	// Overloaded Operator Section.
 	//------------------------------------------------------------
@@ -304,7 +306,7 @@ template <class ItemType>
 void BinarySearchTree<ItemType>::clear()
 {
 	this->destroyTree(rootPtr);
-	rootPtr = 0;
+	rootPtr = nullptr;
 }
 
 template <class ItemType>
@@ -364,6 +366,35 @@ template <class ItemType>
 void BinarySearchTree<ItemType>::postorderTraverse(void visit(ItemType&)) const
 {
 	this->postorder(visit, rootPtr);
+}
+
+template<class ItemType>
+inline void BinarySearchTree<ItemType>::visit() const
+{
+	string information = fname + " " + lname + " " + bday + "\n";
+	cout << information;
+}
+
+template<class ItemType>
+inline bool BinarySearchTree<ItemType>::writeNameToFile(BinarySearchTree<ItemType>& aTree) const
+{
+	ofstream output("output.txt");
+	int count = 0;
+	if (output.is_open())
+	{
+		while (count < aTree.getNumberOfNodes())
+		{
+			output << aTree.postorderTraverse(visit);
+			count++;
+		}
+		output.close();
+		return true;
+	}
+	else
+	{
+		cout << "cannot output to file" << endl;
+		return false;
+	}
 }
 
 template <class ItemType>

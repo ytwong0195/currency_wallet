@@ -86,6 +86,7 @@ public:
 	void preorderTraverse(void visit(ItemType&)) const;
 	void inorderTraverse(void visit(ItemType&)) const;
 	void postorderTraverse(void visit(ItemType&)) const;
+	virtual void visit() const;
 	//------------------------------------------------------------
 	// Overloaded Operator Section.
 	//------------------------------------------------------------
@@ -420,6 +421,12 @@ template <class ItemType>
 void BinaryNodeTree<ItemType>::postorderTraverse(void visit(ItemType&)) const
 {
 	postorder(visit, rootPtr);
+}
+//need to be redefined
+template<class ItemType>
+inline void BinaryNodeTree<ItemType>::visit() const
+{
+	
 }
 
 template <class ItemType>

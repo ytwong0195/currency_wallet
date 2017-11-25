@@ -22,7 +22,7 @@ int displayMenu();
 
 int main()
 {
-	ifstream inFile;
+	ifstream inFile("list.txt");
 	string word;
 	string fname, lname, bday, fullname, bdayNew;
 	bool success;
@@ -34,17 +34,33 @@ int main()
 	BinarySearchTree<string>* namePtr = new BinarySearchTree<string>();
 	BinarySearchTree<string>* bdayPtr = new BinarySearchTree<string>();
 	enum MENU { ADD = 1, REMOVE, MODIFY, SEARCH, EXIT };
+	int counter = 0;
+	while (inFile.is_open() && !inFile.eof())
+	{
+		//add to name or birthday alternatively using counter to keep track of odd even line.
+		if (counter % 2 == 0) 
+		{
+			getline(inFile, word);
+			namePtr->add(word);
+		}
+		else
+		{
+			getline(inFile, word);
+			bdayPtr->add(word);
+		}
+		counter++;
+	}
 
-	bdayPtr->add("1999-12-03");
-	bdayPtr->add("1942-01-08");
-	bdayPtr->add("1942-01-17");
-	bdayPtr->add("1643-01-04");
-	bdayPtr->add("1706-01-17");
-	namePtr->add("Stephen Hawking");
-	namePtr->add("Muhammad Ali");
-	namePtr->add("Issac Newton");
-	namePtr->add("Orlando Bloom");
-	namePtr->add("Lady Gaga");
+	//bdayPtr->add("1999-12-03");
+	//bdayPtr->add("1942-01-08");
+	//bdayPtr->add("1942-01-17");
+	//bdayPtr->add("1643-01-04");
+	//bdayPtr->add("1706-01-17");
+	//namePtr->add("Stephen Hawking");
+	//namePtr->add("Muhammad Ali");
+	//namePtr->add("Issac Newton");
+	//namePtr->add("Orlando Bloom");
+	//namePtr->add("Lady Gaga");
 
 	cout << "The file has been read into a binary search tree." << endl << endl;
 
@@ -230,8 +246,12 @@ int main()
 			break;
 		}
 	}
+
+
 	return 0;
 }
+
+
 
 int displayMenu()
 {
